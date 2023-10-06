@@ -1,21 +1,28 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+// 搜索
 const isShowSearch = ref<boolean>(false);
-
 const searchWord = ref<string>("");
-
+const isLogin = ref<boolean>(false);
+// 登录表单
 enum FormType {
   LOGIN,
   REGISTER,
 }
+// 表单
+function onLogin(type: FormType) {
 
-const isLogin = ref<boolean>(false);
+}
+function onSerch(val: string) {
+  searchWord.value = val;
+}
+// 搜索
 </script>
 
 <template>
   <!-- 顶部header -->
   <header class="nav select-none" text-m flex-row-bt-c px-2 md:px-6 dark:text="light">
     <!-- 左侧 -->
-    <div class="group left flex-row-c-c">
+    <div class="group left" flex-row-c-c>
       <NuxtLink mx-2 to="/" flex-row-c-c class="relative">
         <img
           loading="lazy" alt="Design By Kiwi23333" src="@/assets/images/logo/logo.png" w-2.4rem object-contain
@@ -39,19 +46,30 @@ const isLogin = ref<boolean>(false);
       </a>
     </div>
     <!-- 搜索框 -->
-    <Transition name="fade" :duration="200">
-      <div v-show="isShowSearch" class="fixed left-0 top-0 z-2 h-[100vh] w-full animate-[fade-in_0.2s_ease-out] bg-[rgba(0,0,0,0.8)] dark:bg-[rgba(10,10,10,0.9)]" @click="isShowSearch = false" />
-    </Transition>
+    <transition name="fade" :duration="200">
+      <!-- 搜索框模态框 -->
+      <div
+        v-show="isShowSearch"
+        class="fixed left-0 top-0 z-2 h-[100vh] w-full animate-[fade-in_0.2s_ease-out] bg-[rgba(0,0,0,0.8)] dark:bg-[rgba(10,10,10,0.9)]"
+        @click="isShowSearch = false"
+      />
+    </transition>
     <!-- 搜索框Input -->
-    <div class="z-2 translate-y-0 transition-300 transition-ease-in-out absolute-center" :class="{ 'translate-y-20vh scale-120': isShowSearch }">
+    <div
+      class="z-2 translate-y-0 transition-300 transition-ease-in-out absolute-center"
+      :class="{ 'translate-y-20vh scale-120': isShowSearch }"
+    >
       <InputSearch v-model="searchWord" :on-serch="onSerch" @open="isShowSearch = true" @close="isShowSearch = false" />
-      <h2 class="text-center font-500 text-light transition-300 absolute-center -translate-y-4em" :class="{ '-translate-y-3em': isShowSearch }">
-        搜索
+      <h2
+        class="text-center font-500 text-light transition-300 absolute-center -translate-y-4em"
+        :class="{ '-translate-y-3em': isShowSearch }"
+      >
+        搜 索
       </h2>
     </div>
     <!-- 右侧 -->
     <ClientOnly>
-      <div class="right flex-row-c-c">
+      <div class="right" flex-row-c-c>
         <!-- 消息 -->
         <BtnBell class="mx-2 hidden md:block" />
         <!-- 购物车 -->
@@ -80,10 +98,10 @@ const isLogin = ref<boolean>(false);
                 </el-button>
               </template>
               <div inline-block flex flex-col sm:hidden>
-                <ElButton round class="m-2 cursor-pointer px-2 shadow-md" type="primary" style="margin-left:0">
+                <ElButton round class="m-2 cursor-pointer px-2 shadow-md" type="primary" @click="onLogin(FormType.LOGIN)">
                   登 录
                 </ElButton>
-                <ElButton round m-2 cursor-pointer px-2 style="margin-left:0">
+                <ElButton round m-2 cursor-pointer px-2 style="margin-left: 0" @click="onLogin(FormType.REGISTER)">
                   注 册
                 </ElButton>
               </div>
@@ -94,18 +112,17 @@ const isLogin = ref<boolean>(false);
             hidden flex-col items-center md:block md:flex-row
             class="z-1 rounded-10px bg-[#d8d8d854] p-2 backdrop-blur-12px md:static dark:bg-[#4d4d4d48] md:bg-transparent md:p-0 dark:md:bg-transparent"
           >
-            <ElButton round class="m-2 cursor-pointer px-2 shadow-md" type="primary">
+            <ElButton round class="m-2 cursor-pointer px-2 shadow-md" type="primary" @click="onLogin(FormType.LOGIN)">
               登 录
             </ElButton>
-            <ElButton round m-2 cursor-pointer px-2 style="margin-left: 0">
+            <ElButton round m-2 cursor-pointer px-2 style="margin-left: 0" @click="onLogin(FormType.REGISTER)">
               注 册
             </ElButton>
           </div>
         </div>
-        <!-- 登录之后用户信息 -->
         <div v-else class="box">
-          <!-- <CardUserLine /> -->
-          <p>用户</p>
+          <!-- <CardUserLine :user-info="store.userInfo" /> -->
+          登录之后
         </div>
       </div>
     </ClientOnly>

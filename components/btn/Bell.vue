@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const noticeTip = ref<number>(0);
+const noticeTip = ref<number>(10);
 </script>
 
 <template>
