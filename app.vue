@@ -29,12 +29,14 @@ onNuxtReady(async () => showOtherLoading.value = false);
 </script>
 
 <template>
-  <NuxtLayout name="default">
-    <Transition name="fade">
-      <OtherLoading v-show="showOtherLoading" />
-    </Transition>
-    123
-  </NuxtLayout>
+  <div>
+    <NuxtLayout name="default">
+      <Transition name="fade">
+        <OtherLoading v-show="showOtherLoading" />
+      </Transition>
+      <NuxtPage :keepalive="{ max: 10 }" />
+    </NuxtLayout>
+  </div>
 </template>
 
 <style>
