@@ -1,4 +1,150 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { pwa } from "./config/pwa";
+import { appDescription, appName } from "./constants/index";
+
 export default defineNuxtConfig({
-  devtools: { enabled: true }
-})
+  ssr: true,
+  build: {
+    transpile: [/echarts/, "vue-echarts", "resize-detector"],
+  },
+  // spa情况下loading状态
+  spaLoadingTemplate: "./app/spa-loading-template.html",
+
+  // 模块
+  modules: [
+    // 基础
+    "@nuxtjs/color-mode",
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
+    // 工具
+    "@vueuse/nuxt",
+    // UI
+    "@formkit/auto-animate/nuxt",
+    "@unocss/nuxt",
+    "@element-plus/nuxt",
+    "nuxt-swiper",
+    // pwa
+    "@vite-pwa/nuxt",
+  ],
+  app: {
+    // https://nuxt.com.cn/docs/getting-started/transitions
+    pageTransition: { name: "page", mode: "out-in" },
+    layoutTransition: { name: "layout", mode: "out-in" },
+    head: {
+      title: `${appName} - 开启你的购物社区之旅 ✨`,
+      viewport: "width=device-width,initial-scale=1",
+      // 网站头部信息
+      link: [
+        { rel: "icon", href: "/logo.png", sizes: "any" },
+        { rel: "apple-touch-icon", href: "/logo.png" },
+      ],
+      // 网站meta
+      meta: [
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "description", content: appDescription },
+        { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      ],
+    },
+  },
+
+  // https://blog.csdn.net/weixin_42553583/article/details/131372309
+  experimental: {
+    payloadExtraction: false,
+    inlineSSRStyles: false,
+    renderJsonPayloads: true, //
+    viewTransition: true, // 支持View Transition API Chorme111 https://blog.csdn.net/weixin_42553583/article/details/130474259
+    crossOriginPrefetch: true, // 使用 Speculation Rules API 启用跨源预取。
+  },
+  // 自动导入
+  imports: {
+    dirs: [
+      // Scan top-level modules
+      "composables",
+      "composables/utils/**",
+      "composables/store/**",
+      "composables/api/*/",
+      "types/*/.ts",
+      "types/**",
+    ],
+  },
+  // css
+  css: [
+    "nprogress/nprogress.css",
+    "~/assets/styles/init.scss",
+    "~/assets/styles/index.scss",
+    "~/assets/styles/animate.scss",
+  ],
+  // vite
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+          @use "@/assets/styles/element/index.scss" as element;  
+          @use "@/assets/styles/element/dark.scss" as dark;  
+          @use "@/assets/styles/var.scss" as *;   
+          `,
+        },
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes("node_modules"))
+              return id.toString().split("node_modules/")[1].split("/")[0].toString();
+          },
+        },
+      },
+    },
+  },
+  // pinia
+  pinia: {
+    autoImports: [
+      "defineStore", // import { defineStore } from 'pinia',
+    ],
+  },
+  // pinia持久化到会话存储
+  piniaPersistedstate: {
+    storage: "localStorage", // cookie
+  },
+  colorMode: {
+    classSuffix: "",
+  },
+  // alias: {
+  //   // 配置@使用静态资源
+  //   assets: '/<rootDir>/assets',
+  // },
+  // nitro
+  nitro: {
+    baseURL: "/app",
+    esbuild: {
+      options: {
+        target: "esnext",
+      },
+    },
+    // devProxy: {
+    //   "/api": {
+    //     target: BaseUrl,
+    //     prependPath: true,
+    //     changeOrigin: true,
+    //   },
+    // },
+    // routeRules: {
+    //   "/api/**": {
+    //     proxy: "http://localhost:9090/**",
+    //   },
+    // },
+  },
+  // elementPlus
+  elementPlus: {
+    icon: "ElIcon",
+    importStyle: "scss",
+    themes: ["dark"],
+  },
+  // pwa
+  pwa,
+  // nuxt开发者工具
+  devtools: {
+    enabled: false,
+  },
+});
