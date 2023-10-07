@@ -20,7 +20,11 @@ useHead({
 <template>
   <div>
     <NuxtLayout name="main">
-      main
+      <div py-0 layout-default>
+        <div class="flex flex-col">
+          <IndexTopMenu w-full />
+        </div>
+      </div>
     </NuxtLayout>
   </div>
 </template>
