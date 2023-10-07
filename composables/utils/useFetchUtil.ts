@@ -1,4 +1,5 @@
 import type { UseFetchOptions } from "nuxt/app";
+import { BaseUrl } from "./useBaseUrl";
 import type { StatusCode } from "~/types/result";
 
 type Methods = "GET" | "POST" | "DELETE" | "PUT";
@@ -9,7 +10,7 @@ export interface Result<T> {
   data: T
 }
 
-class useFetchUtil {
+class UseFetchUtil {
   request<T = any>(
     url: string,
     method: Methods,
@@ -53,4 +54,4 @@ class useFetchUtil {
   }
 }
 
-export default new useFetchUtil();
+export default new UseFetchUtil();

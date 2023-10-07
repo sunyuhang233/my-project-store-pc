@@ -9,7 +9,7 @@ export function httpRequest<T = unknown>(
   opts?: FetchOptions,
 ) {
   let msg: string = "";
-  const user = useUserStore();
+  // const user = useUserStore();
   const defaultOpts = {
     method,
     baseURL: BaseUrl,
@@ -17,10 +17,10 @@ export function httpRequest<T = unknown>(
     // 请求拦截器
     onRequest: (config) => {
       // 需要登录操作
-      if (config.options.headers?.Authorization !== undefined) {
-        if (config.options.headers?.Authorization === "")
-          user.showLoginForm = true;
-      }
+      // if (config.options.headers?.Authorization !== undefined) {
+      //   if (config.options.headers?.Authorization === "")
+      //     user.showLoginForm = true;
+      // }
     },
     onResponse: (coinfig) => {
       const data = coinfig.response._data;
@@ -48,7 +48,7 @@ export function httpRequest<T = unknown>(
           break;
         case StatusCode.TOKEN_ERR:
           msg = "身份验证失败！";
-          user.showLoginForm = true;
+          // user.showLoginForm = true;
           break;
         case StatusCode.PARAM_ERR:
           msg = "请求失败，参数错误！";
