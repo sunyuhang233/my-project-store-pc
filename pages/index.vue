@@ -25,6 +25,10 @@ useHead({
           <IndexTopMenu w-full />
           <!-- 热门商品分类 -->
           <IndexCategoryLine class="mt-6 md:my-8" />
+          <!-- 商品Tabs -->
+          <div class="mv-10vh mt-4 min-h-100vh">
+            <IndexGoodsTabs />
+          </div>
         </div>
       </div>
     </NuxtLayout>
