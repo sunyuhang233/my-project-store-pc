@@ -23,6 +23,8 @@ useHead({
       <div py-0 layout-default>
         <div class="flex flex-col">
           <IndexTopMenu w-full />
+          <!-- 热门商品分类 -->
+          <IndexCategoryLine class="mt-6 md:my-8" />
         </div>
       </div>
     </NuxtLayout>
